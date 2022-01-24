@@ -22,8 +22,8 @@ class TransFusionDetector(MVXTwoStageDetector):
     def __init__(self, **kwargs):
         super(TransFusionDetector, self).__init__(**kwargs)
 
-        self.freeze_img = kwargs['freeze_img']
-        self.init_weights(pretrained=kwargs['pretrained'])
+        self.freeze_img = kwargs.get('freeze_img', False)
+        self.init_weights(pretrained=kwargs.get('pretrained', None))
 
     def init_weights(self, pretrained=None):
         """Initialize model weights."""

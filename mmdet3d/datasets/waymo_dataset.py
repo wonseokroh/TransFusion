@@ -55,6 +55,7 @@ class WaymoDataset(KittiDataset):
                  data_root,
                  ann_file,
                  split,
+                 num_views=5,
                  pts_prefix='velodyne',
                  pipeline=None,
                  classes=None,
@@ -77,6 +78,8 @@ class WaymoDataset(KittiDataset):
             test_mode=test_mode,
             pcd_limit_range=pcd_limit_range)
 
+        self.num_views = num_views
+        assert self.num_views <= 5
         # to load a subset, just set the load_interval in the dataset config
         self.data_infos = self.data_infos[::load_interval]
         if hasattr(self, 'flag'):

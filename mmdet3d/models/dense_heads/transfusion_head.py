@@ -1229,9 +1229,10 @@ class TransFusionHead(nn.Module):
             labels, label_weights, bbox_targets, bbox_weights, ious, num_pos, matched_ious, heatmap = self.get_targets(gt_bboxes_3d, gt_labels_3d, preds_dicts[0])
         else:
             labels, label_weights, bbox_targets, bbox_weights, ious, num_pos, matched_ious = self.get_targets(gt_bboxes_3d, gt_labels_3d, preds_dicts[0])
-        label_weights = label_weights * self.on_the_image_mask
-        bbox_weights = bbox_weights * self.on_the_image_mask[:, :, None]
-        num_pos = bbox_weights.max(-1).values.sum()
+        if hasattr(self, 'on_the_image_mask'):
+            label_weights = label_weights * self.on_the_image_mask
+            bbox_weights = bbox_weights * self.on_the_image_mask[:, :, None]
+            num_pos = bbox_weights.max(-1).values.sum()
         preds_dict = preds_dicts[0][0]
         loss_dict = dict()
 

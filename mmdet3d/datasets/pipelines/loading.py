@@ -431,6 +431,12 @@ class LoadMultiViewImageFromFiles(object):
         self.img_scale = img_scale
         self.color_type = color_type
 
+    def pad(self, img):
+        # to pad the 5 input images into a same size (for Waymo)
+        if img.shape[0] != self.img_scale[0]:
+            img = np.concatenate([img, np.zeros_like(img[0:1280-886,:])], axis=0)
+        return img
+
     def __call__(self, results):
         """Call function to load multi-view image from files.
 

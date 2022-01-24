@@ -103,6 +103,7 @@ class NuScenesDataset(Custom3DDataset):
 
     def __init__(self,
                  ann_file,
+                 num_views=6,
                  pipeline=None,
                  data_root=None,
                  classes=None,
@@ -126,6 +127,8 @@ class NuScenesDataset(Custom3DDataset):
             filter_empty_gt=filter_empty_gt,
             test_mode=test_mode)
 
+        self.num_views = num_views
+        assert self.num_views <= 6
         self.with_velocity = with_velocity
         self.eval_version = eval_version
         from nuscenes.eval.detection.config import config_factory
