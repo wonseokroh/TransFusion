@@ -207,10 +207,13 @@ class NuScenesDataset(Custom3DDataset):
             timestamp=info['timestamp'] / 1e6,
         )
 
+        cam_orders = ['CAM_FRONT_LEFT', 'CAM_FRONT', 'CAM_FRONT_RIGHT', 'CAM_BACK_RIGHT', 'CAM_BACK', 'CAM_BACK_LEFT']
         if self.modality['use_camera']:
             image_paths = []
             lidar2img_rts = []
-            for cam_type, cam_info in info['cams'].items():
+            # for cam_type, cam_info in info['cams'].items():
+            for cam_type in cam_orders:
+                cam_info = info['cams'][cam_type]
                 image_paths.append(cam_info['data_path'])
                 # obtain lidar to image transformation matrix
                 lidar2cam_r = np.linalg.inv(cam_info['sensor2lidar_rotation'])
