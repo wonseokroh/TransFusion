@@ -1,6 +1,6 @@
 # TransFusion repository
 
-PyTorch implementation of TransFusion for CVPR'2022 paper ["TransFusion: Robust LiDAR-Camera Fusion for 3D Object Detection with Transformers"](https://arxiv.org/abs/), by Xuyang Bai, Zeyu Hu, Xinge Zhu, Qingqiu Huang, Yilun Chen, Hongbo Fu and Chiew-Lan Tai.
+PyTorch implementation of TransFusion for CVPR'2022 paper ["TransFusion: Robust LiDAR-Camera Fusion for 3D Object Detection with Transformers"](https://arxiv.org/abs/2203.11496), by Xuyang Bai, Zeyu Hu, Xinge Zhu, Qingqiu Huang, Yilun Chen, Hongbo Fu and Chiew-Lan Tai.
 
 This paper focus on LiDAR-camera fusion for 3D object detection. If you find this project useful, please cite:
 
@@ -21,11 +21,12 @@ We propose TransFusion, a robust solution to LiDAR-camera fusion with a soft-ass
 ![pipeline](resources/pipeline.png)
 
 **updates**
+- March 23, 2022: paper link added
 - March 15, 2022: initial release
 
 ## Main Results
 
-Detailed results can be found in [nuscenes.md](configs/nuscenes.md) and [waymo.md](configs/waymo.md). Configuration files and guidance to reproduce these results are all included in [configs](configs), we are not going to release the pretrained models due to the policy of Huawei ADAS. 
+Detailed results can be found in [nuscenes.md](configs/nuscenes.md) and [waymo.md](configs/waymo.md). Configuration files and guidance to reproduce these results are all included in [configs](configs), we are not going to release the pretrained models due to the policy of Huawei IAS BU. 
 
 ### nuScenes detection test 
 
