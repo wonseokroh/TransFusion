@@ -107,6 +107,7 @@ data = dict(
         box_type_3d='LiDAR'))
 model = dict(
     type='TransFusionDetector',
+    freeze_img=True,
     img_backbone=dict(
         type='ResNet',
         depth=50,
