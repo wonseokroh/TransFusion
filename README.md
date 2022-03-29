@@ -53,7 +53,7 @@ Detailed results can be found in [nuscenes.md](configs/nuscenes.md) and [waymo.m
 
 **Installation**
 
-Please refer to [getting_started.md](docs/getting_started.md) for installation of mmdet3d.
+Please refer to [getting_started.md](docs/getting_started.md) for installation of mmdet3d. We use mmdet 2.10.0 and mmcv 1.2.4 for this project.
 
 **Benchmark Evaluation and Training**
 
