@@ -817,6 +817,7 @@ class TransFusionHead(nn.Module):
             img_feat = self.shared_conv_img(img_inputs)  # [BS, n_views, H, W, C]
 
             img_h, img_w, num_channel = img_inputs.shape[-2], img_inputs.shape[-1], img_feat.shape[1]
+            img_feat = img_feat.permute(0, 4, 2, 1, 3)
             img_feat = img_feat.view(batch_size, num_channel, img_h, img_w * self.num_views)  # [BS, C, H, n_views*W]
             img_feat_collapsed = img_feat.max(2).values
             img_feat_collapsed = self.fc(img_feat_collapsed).view(batch_size, num_channel, img_w * self.num_views)
