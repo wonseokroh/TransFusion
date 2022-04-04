@@ -814,11 +814,11 @@ class TransFusionHead(nn.Module):
         bev_pos = self.bev_pos.repeat(batch_size, 1, 1).to(lidar_feat.device)
 
         if self.fuse_img:
-            img_feat = self.shared_conv_img(img_inputs)  # [BS, n_views, H, W, C]
+            img_feat = self.shared_conv_img(img_inputs)  # [BS * n_views, C, H, W]
 
             img_h, img_w, num_channel = img_inputs.shape[-2], img_inputs.shape[-1], img_feat.shape[1]
-            img_feat = img_feat.permute(0, 4, 2, 1, 3)
-            img_feat = img_feat.view(batch_size, num_channel, img_h, img_w * self.num_views)  # [BS, C, H, n_views*W]
+            raw_img_feat = img_feat.view(batch_size, self.num_views, num_channel, img_h, img_w).permute(0, 2, 3, 1, 4) # [BS, C, H, n_views, W]
+            img_feat = raw_img_feat.reshape(batch_size, num_channel, img_h, img_w * self.num_views)  # [BS, C, H, n_views*W]
             img_feat_collapsed = img_feat.max(2).values
             img_feat_collapsed = self.fc(img_feat_collapsed).view(batch_size, num_channel, img_w * self.num_views)
 
@@ -901,7 +901,8 @@ class TransFusionHead(nn.Module):
         #################################
         if self.fuse_img:
             # positional encoding for image fusion
-            img_feat_flatten = img_feat.view(batch_size, self.num_views, img_feat.shape[1], -1)  # [BS, n_views, C, H*W]
+            img_feat = raw_img_feat.permute(0, 3, 1, 2, 4) # [BS, n_views, C, H, W]
+            img_feat_flatten = img_feat.view(batch_size, self.num_views, num_channel, -1)  # [BS, n_views, C, H*W]
             if self.img_feat_pos is None:
                 (h, w) = img_inputs.shape[-2], img_inputs.shape[-1]
                 img_feat_pos = self.img_feat_pos = self.create_2D_grid(h, w).to(img_feat_flatten.device)
