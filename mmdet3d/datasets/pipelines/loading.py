@@ -186,6 +186,8 @@ class MyResize(object):
 
     def _resize_img(self, results):
         """Resize images with ``results['scale']``."""
+        imgs = results['img']
+        results['img'] = [imgs[i] for i in range(len(imgs))]
         for key in results.get('img_fields', ['img']):
             for idx in range(len(results['img'])):
                 if self.keep_ratio:
