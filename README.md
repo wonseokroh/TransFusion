@@ -57,7 +57,9 @@ Please refer to [getting_started.md](docs/getting_started.md) for installation o
 
 **Benchmark Evaluation and Training**
 
-Please refer to [data_preparation.md](docs/getting_started.md) to prepare the data. Then follow the instruction there to train our model. All detection configurations are included in [configs](configs/).
+Please refer to [data_preparation.md](docs/data_preparation.md) to prepare the data. Then follow the instruction there to train our model. All detection configurations are included in [configs](configs/). 
+
+Note that if you a the newer version of mmdet3d to prepare the meta file for nuScenes and then train/eval the TransFusion, it will have a wrong mAOE and mASE because mmdet3d has a [coordinate system refactoring](https://github.com/open-mmlab/mmdetection3d/blob/master/docs/en/compatibility.md#coordinate-system-refactoring) which affect the definitation of yaw angle and object size (`l, w`).
 
 ## Acknowlegement
 
