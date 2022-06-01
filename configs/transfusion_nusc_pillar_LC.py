@@ -31,16 +31,16 @@ train_pipeline = [
     ),
     dict(type='LoadAnnotations3D', with_bbox_3d=True, with_label_3d=True),
     dict(type='LoadMultiViewImageFromFiles'),
-    dict(
-        type='GlobalRotScaleTrans',
-        rot_range=[-0.3925 * 2, 0.3925 * 2],
-        scale_ratio_range=[0.9, 1.1],
-        translation_std=[0.5, 0.5, 0.5]),
-    dict(
-        type='RandomFlip3D',
-        sync_2d=True,
-        flip_ratio_bev_horizontal=0.5,
-        flip_ratio_bev_vertical=0.5),
+    # dict(
+    #     type='GlobalRotScaleTrans',
+    #     rot_range=[-0.3925 * 2, 0.3925 * 2],
+    #     scale_ratio_range=[0.9, 1.1],
+    #     translation_std=[0.5, 0.5, 0.5]),
+    # dict(
+    #     type='RandomFlip3D',
+    #     sync_2d=True,
+    #     flip_ratio_bev_horizontal=0.5,
+    #     flip_ratio_bev_vertical=0.5),
     dict(type='PointsRangeFilter', point_cloud_range=point_cloud_range),
     dict(type='ObjectRangeFilter', point_cloud_range=point_cloud_range),
     dict(type='ObjectNameFilter', classes=class_names),
