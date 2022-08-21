@@ -824,7 +824,7 @@ class TransFusionHead(nn.Module):
 
             # positional encoding for image guided query initialization
             if self.img_feat_collapsed_pos is None:
-                img_feat_collapsed_pos = self.img_feat_collapsed_po = self.create_2D_grid(1, img_feat_collapsed.shape[-1]).to(img_feat.device)
+                img_feat_collapsed_pos = self.img_feat_collapsed_pos = self.create_2D_grid(1, img_feat_collapsed.shape[-1]).to(img_feat.device)
             else:
                 img_feat_collapsed_pos = self.img_feat_collapsed_pos
 
