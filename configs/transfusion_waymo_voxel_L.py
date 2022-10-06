@@ -4,7 +4,7 @@ voxel_size = [0.1, 0.1, 0.15]
 out_size_factor = 8
 evaluation = dict(interval=1)
 dataset_type = 'WaymoDataset'
-data_root = 'data/waymo/kitti_format'
+data_root = '/data/waymo/kitti_format'
 input_modality = dict(
     use_lidar=True,
     use_camera=False,
@@ -221,8 +221,17 @@ total_epochs = 36
 checkpoint_config = dict(interval=1)
 log_config = dict(
     interval=50,
-    hooks=[dict(type='TextLoggerHook'),
-           dict(type='TensorboardLoggerHook')])
+    hooks=[
+        dict(type='TextLoggerHook'),
+        dict(
+               type='WandbLoggerHook',
+               init_kwargs=dict(
+                   entity='letsgoeccv',
+                   project='transfusion',
+                   name='waymo-L'
+               )
+           )
+        ])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = None

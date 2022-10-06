@@ -30,7 +30,7 @@ train_pipeline = [
     dict(
         type='ObjectSample',
         db_sampler=dict(
-            data_root=None,
+            data_root=data_root,
             info_path=data_root + 'nuscenes_dbinfos_train.pkl',
             rate=1.0,
             prepare=dict(
@@ -113,8 +113,8 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=2,
-    workers_per_gpu=6,
+    samples_per_gpu=8,
+    workers_per_gpu=24,
     train=dict(
         type='CBGSDataset',
         dataset=dict(

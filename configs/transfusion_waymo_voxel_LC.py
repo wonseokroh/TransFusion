@@ -4,7 +4,7 @@ voxel_size = [0.1, 0.1, 0.15]
 out_size_factor = 8
 evaluation = dict(interval=1)
 dataset_type = 'WaymoDataset'
-data_root = 'data/waymo/kitti_format'
+data_root = '/data/waymo/kitti_format'
 input_modality = dict(
     use_lidar=True,
     use_camera=True,
@@ -64,7 +64,7 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=2,
+    samples_per_gpu=4,
     workers_per_gpu=6,
     train=dict(
         type='RepeatDataset',
@@ -246,7 +246,7 @@ log_config = dict(
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = None
-load_from = 'checkpoints/waymo_36e_R50.pth'
+load_from = None
 resume_from = None
 workflow = [('train', 1)]
 freeze_lidar_components = True

@@ -197,6 +197,10 @@ class SparseConvolution(SparseModule):
 
             if self.bias is not None:
                 out_features += self.bias
+        # print(out_features.shape, '<=========== out features')
+        # print(outids.shape, '<========== out ids')
+        # print(out_spatial_shape, '<============ out spatial shape')
+        # print(batch_size, '<========== batch size')
         out_tensor = SparseConvTensor(out_features, outids, out_spatial_shape,
                                       batch_size)
         out_tensor.indice_dict = input.indice_dict

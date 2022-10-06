@@ -1,7 +1,8 @@
 import mmcv
 import torch
 from mmcv.parallel import DataContainer as DC
-from mmcv.runner import force_fp32
+from mmcv.runner import force_fp32, auto_fp16
+
 from os import path as osp
 from torch import nn as nn
 from torch.nn import functional as F
@@ -66,6 +67,7 @@ class TransFusionDetector(MVXTwoStageDetector):
                                                 )
         batch_size = coors[-1, 0] + 1
         x = self.pts_middle_encoder(voxel_features, coors, batch_size)
+        # x shape : torch.Size([1, 256, 180, 180])
         x = self.pts_backbone(x)
         if self.with_pts_neck:
             x = self.pts_neck(x)
@@ -179,6 +181,23 @@ class TransFusionDetector(MVXTwoStageDetector):
         losses = self.pts_bbox_head.loss(*loss_inputs)
         return losses
 
+    @force_fp32(apply_to=('img', 'points'))
+    def forward(self, return_loss=True, **kwargs):
+        """Calls either forward_train or forward_test depending on whether
+        return_loss=True.
+
+        Note this setting will change the expected inputs. When
+        `return_loss=True`, img and img_metas are single-nested (i.e.
+        torch.Tensor and list[dict]), and when `resturn_loss=False`, img and
+        img_metas should be double nested (i.e.  list[torch.Tensor],
+        list[list[dict]]), with the outer list indicating test time
+        augmentations.
+        """
+        if return_loss:
+            return self.forward_train(**kwargs)
+        else:
+            return self.forward_test(**kwargs)
+
     def simple_test_pts(self, x, x_img, img_metas, rescale=False):
         """Test function of point cloud branch."""
         outs = self.pts_bbox_head(x, x_img, img_metas)
@@ -207,3 +226,53 @@ class TransFusionDetector(MVXTwoStageDetector):
             for result_dict, img_bbox in zip(bbox_list, bbox_img):
                 result_dict['img_bbox'] = img_bbox
         return bbox_list
+    
+
+    ###################################
+    #######    Meta-Learning    #######
+    ###################################
+
+    # def meta_test(self, points, gt_bboxes_3d, gt_labels_3d, img_metas, img=None, rescale=False):
+    #     img_feats, pts_feats = self.extract_feat(points, img=img, img_metas=img_metas)
+
+    #     losses = dict()
+    #     bbox_list = [dict() for i in range(len(img_metas))]
+    #     if pts_feats:
+    #         outs = self.pts_bbox_head(pts_feats, img_feats, img_metas)
+    #         loss_inputs = [gt_bboxes_3d, gt_labels_3d, outs]
+    #         loss_inputs = [gt_bboxes_3d, gt_labels_3d, outs]
+    #         losses = self.pts_bbox_head.loss(*loss_inputs) 
+
+    #     if img_feats:
+    #         bbox_img = self.simple_test_img(
+    #             img_feats, img_metas, rescale=rescale)
+    #         for result_dict, img_bbox in zip(bbox_list, bbox_img):
+    #             result_dict['img_bbox'] = img_bbox
+    #     return bbox_list
+
+    # def forward_pts_train(self,
+    #                       pts_feats,
+    #                       img_feats,
+    #                       gt_bboxes_3d,
+    #                       gt_labels_3d,
+    #                       img_metas,
+    #                       gt_bboxes_ignore=None):
+    #     """Forward function for point cloud branch.
+
+    #     Args:
+    #         pts_feats (list[torch.Tensor]): Features of point cloud branch
+    #         gt_bboxes_3d (list[:obj:`BaseInstance3DBoxes`]): Ground truth
+    #             boxes for each sample.
+    #         gt_labels_3d (list[torch.Tensor]): Ground truth labels for
+    #             boxes of each sampole
+    #         img_metas (list[dict]): Meta information of samples.
+    #         gt_bboxes_ignore (list[torch.Tensor], optional): Ground truth
+    #             boxes to be ignored. Defaults to None.
+
+    #     Returns:
+    #         dict: Losses of each branch.
+    #     """
+    #     outs = self.pts_bbox_head(pts_feats, img_feats, img_metas)
+    #     loss_inputs = [gt_bboxes_3d, gt_labels_3d, outs]
+    #     losses = self.pts_bbox_head.loss(*loss_inputs)
+    #     return losses

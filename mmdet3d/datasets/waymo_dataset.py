@@ -326,6 +326,7 @@ class WaymoDataset(KittiDataset):
                 f'compute_detection_metrics_main {pklfile_prefix}.bin ' +
                 f'{waymo_root}/gt.bin',
                 shell=True)
+            print('drgonnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn')
             ret_texts = ret_bytes.decode('utf-8')
             print_log(ret_texts)
             # parse the text to get ap_dict

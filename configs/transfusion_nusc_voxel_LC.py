@@ -7,7 +7,7 @@ voxel_size = [0.075, 0.075, 0.2]
 out_size_factor = 8
 evaluation = dict(interval=1)
 dataset_type = 'NuScenesDataset'
-data_root = 'data/nuscenes/'
+data_root = '/data/nuscenes'
 input_modality = dict(
     use_lidar=True,
     use_camera=True,
@@ -87,8 +87,8 @@ test_pipeline = [
         ])
 ]
 data = dict(
-    samples_per_gpu=2,
-    workers_per_gpu=6,
+    samples_per_gpu=4,
+    workers_per_gpu=12,
     train=dict(
         type='CBGSDataset',
         dataset=dict(
@@ -264,7 +264,7 @@ log_config = dict(
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = None
-load_from = 'checkpoints/fusion_voxel0075_R50.pth'
+load_from = 'ckpts/transfusion_20.pth'
 resume_from = None
 workflow = [('train', 1)]
 gpu_ids = range(0, 8)

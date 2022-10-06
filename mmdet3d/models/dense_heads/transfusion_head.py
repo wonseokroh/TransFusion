@@ -106,7 +106,8 @@ class TransformerDecoderLayer(nn.Module):
             query2 = self.self_attn(q, k, value=v)[0]
             query = query + self.dropout1(query2)
             query = self.norm1(query)
-
+        # print(query.shape, query_pos_embed.shape, '<================== query')
+        # print(key.shape, key_pos_embed.shape, '<================== key')
         query2 = self.multihead_attn(query=self.with_pos_embed(query, query_pos_embed),
                                      key=self.with_pos_embed(key, key_pos_embed),
                                      value=self.with_pos_embed(key, key_pos_embed), attn_mask=attn_mask)[0]
@@ -824,7 +825,7 @@ class TransFusionHead(nn.Module):
 
             # positional encoding for image guided query initialization
             if self.img_feat_collapsed_pos is None:
-                img_feat_collapsed_pos = self.img_feat_collapsed_pos = self.create_2D_grid(1, img_feat_collapsed.shape[-1]).to(img_feat.device)
+                img_feat_collapsed_pos = self.img_feat_collapsed_po = self.create_2D_grid(1, img_feat_collapsed.shape[-1]).to(img_feat.device)
             else:
                 img_feat_collapsed_pos = self.img_feat_collapsed_pos
 

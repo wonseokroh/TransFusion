@@ -1,0 +1,29 @@
+{
+    "os": "Linux-5.4.0-104-generic-x86_64-with-glibc2.10",
+    "python": "3.8.0",
+    "heartbeatAt": "2022-09-29T02:14:25.182023",
+    "startedAt": "2022-09-29T02:14:24.158803",
+    "docker": null,
+    "gpu": "NVIDIA RTX A6000",
+    "gpu_count": 4,
+    "cpu_count": 24,
+    "cuda": null,
+    "args": [
+        "--local_rank=0",
+        "configs/transfusion_waymo_voxel_L.py",
+        "--launcher",
+        "pytorch"
+    ],
+    "state": "running",
+    "program": "./tools/train.py",
+    "codePath": "tools/train.py",
+    "git": {
+        "remote": "https://github.com/XuyangBai/TransFusion.git",
+        "commit": "73c596f7bd3460c17cbcc58dd9bcc5a0896774a8"
+    },
+    "email": null,
+    "root": "/home/wonseok_roh/TransFusion",
+    "host": "kucv18",
+    "username": "wonseok_roh",
+    "executable": "/home/wonseok_roh/.conda/envs/transfusion/bin/python"
+}

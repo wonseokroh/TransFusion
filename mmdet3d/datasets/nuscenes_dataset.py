@@ -225,7 +225,9 @@ class NuScenesDataset(Custom3DDataset):
                 lidar2cam_rt = np.eye(4)
                 lidar2cam_rt[:3, :3] = lidar2cam_r.T
                 lidar2cam_rt[3, :3] = -lidar2cam_t
+                # ================= for new annotation file =================
                 intrinsic = cam_info['cam_intrinsic']
+                # intrinsic = cam_info['camera_intrinsics']
                 viewpad = np.eye(4)
                 viewpad[:intrinsic.shape[0], :intrinsic.shape[1]] = intrinsic
                 lidar2img_rt = (viewpad @ lidar2cam_rt.T)
@@ -478,6 +480,7 @@ class NuScenesDataset(Custom3DDataset):
         Returns:
             dict[str, float]: Results of each evaluation metric.
         """
+        print(len(results), '<======== results')
         result_files, tmp_dir = self.format_results(results, jsonfile_prefix)
 
         if isinstance(result_files, dict):
